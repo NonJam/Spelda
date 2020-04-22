@@ -24,6 +24,17 @@ impl StateInstance {
     fn _ready(&mut self, _owner: Node) {
         // Call engine _ready
         self.engine._ready(_owner);
+        let renderables = self.engine.resources.get::<Models<Renderables>>().unwrap();
+        let player = renderables.data_from_t(&Renderables::Player).unwrap();
+
+        self.engine.world.insert(
+            (), 
+            vec![(
+                Renderable { index: player.1, template: player.0 }, 
+                GDSpatial, 
+                Position { x: 240f32, y: 450f32, rotation: euclid::Angle::radians(0f32) }
+            )]
+        );
     }
 
     #[export]
